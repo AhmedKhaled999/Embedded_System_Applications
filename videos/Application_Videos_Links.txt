@@ -1,0 +1,13 @@
+/***********************************************************Applications Links********************************************************/
+01-Traffic_Lightening_System  
+
+https://www.youtube.com/watch?v=FTF-u5hHDjE&list=PLwBBwQ_3d2moW7P1y7JbwxBJbzr7eDMbz
+
+
+02-LED_Animations_DIP_Switch
+
+https://www.youtube.com/watch?v=IeqoiIeAhgE&list=PLwBBwQ_3d2moW7P1y7JbwxBJbzr7eDMbz&index=2
+
+03-LEDs_Control_By_PushButton
+
+https://www.youtube.com/watch?v=N3fZphSWR48&list=PLwBBwQ_3d2moW7P1y7JbwxBJbzr7eDMbz&index=3

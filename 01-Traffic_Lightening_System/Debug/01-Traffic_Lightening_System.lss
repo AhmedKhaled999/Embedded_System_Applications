@@ -3,15 +3,15 @@
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00001038  00000000  00000000  00000094  2**1
+  0 .text         00001046  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000008  00800060  00001038  000010cc  2**0
+  1 .data         00000008  00800060  00001046  000010da  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000003  00800068  00800068  000010d4  2**0
+  2 .bss          00000003  00800068  00800068  000010e2  2**0
                   ALLOC
-  3 .stab         00001434  00000000  00000000  000010d4  2**2
+  3 .stab         00001434  00000000  00000000  000010e4  2**2
                   CONTENTS, READONLY, DEBUGGING
-  4 .stabstr      00000aca  00000000  00000000  00002508  2**0
+  4 .stabstr      00000ae2  00000000  00000000  00002518  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -51,7 +51,7 @@ Disassembly of section .text:
       60:	10 e0       	ldi	r17, 0x00	; 0
       62:	a0 e6       	ldi	r26, 0x60	; 96
       64:	b0 e0       	ldi	r27, 0x00	; 0
-      66:	e8 e3       	ldi	r30, 0x38	; 56
+      66:	e6 e4       	ldi	r30, 0x46	; 70
       68:	f0 e1       	ldi	r31, 0x10	; 16
       6a:	02 c0       	rjmp	.+4      	; 0x70 <.do_copy_data_start>
 
@@ -77,8 +77,8 @@ Disassembly of section .text:
       80:	ab 36       	cpi	r26, 0x6B	; 107
       82:	b1 07       	cpc	r27, r17
       84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
-      86:	0e 94 dc 07 	call	0xfb8	; 0xfb8 <main>
-      8a:	0c 94 1a 08 	jmp	0x1034	; 0x1034 <_exit>
+      86:	0e 94 d7 07 	call	0xfae	; 0xfae <main>
+      8a:	0c 94 21 08 	jmp	0x1042	; 0x1042 <_exit>
 
 0000008e <__bad_interrupt>:
       8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -2419,156 +2419,163 @@ void APP_CountDown(u8 Copy_u8Number)
      f4a:	df 93       	push	r29
      f4c:	cf 93       	push	r28
      f4e:	00 d0       	rcall	.+0      	; 0xf50 <APP_CountDown+0x6>
-     f50:	cd b7       	in	r28, 0x3d	; 61
-     f52:	de b7       	in	r29, 0x3e	; 62
-     f54:	8a 83       	std	Y+2, r24	; 0x02
-	u8 j=0;
-     f56:	19 82       	std	Y+1, r1	; 0x01
-	if(Copy_u8Number==10){
-     f58:	8a 81       	ldd	r24, Y+2	; 0x02
-     f5a:	8a 30       	cpi	r24, 0x0A	; 10
-     f5c:	b1 f4       	brne	.+44     	; 0xf8a <APP_CountDown+0x40>
-		HSEVEN_SEGMENT_VidDisplayNumber(&SEVEN_SEG1,1);
-     f5e:	84 e6       	ldi	r24, 0x64	; 100
-     f60:	90 e0       	ldi	r25, 0x00	; 0
-     f62:	61 e0       	ldi	r22, 0x01	; 1
-     f64:	0e 94 b4 04 	call	0x968	; 0x968 <HSEVEN_SEGMENT_VidDisplayNumber>
-		HSEVEN_SEGMENT_VidDisplayNumber(&SEVEN_SEG2,0);
-     f68:	86 e6       	ldi	r24, 0x66	; 102
-     f6a:	90 e0       	ldi	r25, 0x00	; 0
-     f6c:	60 e0       	ldi	r22, 0x00	; 0
-     f6e:	0e 94 b4 04 	call	0x968	; 0x968 <HSEVEN_SEGMENT_VidDisplayNumber>
+     f50:	00 d0       	rcall	.+0      	; 0xf52 <APP_CountDown+0x8>
+     f52:	cd b7       	in	r28, 0x3d	; 61
+     f54:	de b7       	in	r29, 0x3e	; 62
+     f56:	8c 83       	std	Y+4, r24	; 0x04
+	u8 i= Copy_u8Number;
+     f58:	8c 81       	ldd	r24, Y+4	; 0x04
+     f5a:	8b 83       	std	Y+3, r24	; 0x03
+     f5c:	1e c0       	rjmp	.+60     	; 0xf9a <APP_CountDown+0x50>
+	for(;i>0;i--)
+	{
+		u8 SEG_1 = i%10;
+     f5e:	8b 81       	ldd	r24, Y+3	; 0x03
+     f60:	9a e0       	ldi	r25, 0x0A	; 10
+     f62:	69 2f       	mov	r22, r25
+     f64:	0e 94 15 08 	call	0x102a	; 0x102a <__udivmodqi4>
+     f68:	89 2f       	mov	r24, r25
+     f6a:	8a 83       	std	Y+2, r24	; 0x02
+		u8 SEG_2 = i/10;
+     f6c:	8b 81       	ldd	r24, Y+3	; 0x03
+     f6e:	9a e0       	ldi	r25, 0x0A	; 10
+     f70:	69 2f       	mov	r22, r25
+     f72:	0e 94 15 08 	call	0x102a	; 0x102a <__udivmodqi4>
+     f76:	89 83       	std	Y+1, r24	; 0x01
+
+		HSEVEN_SEGMENT_VidDisplayNumber(&SEVEN_SEG1,SEG_2);
+     f78:	84 e6       	ldi	r24, 0x64	; 100
+     f7a:	90 e0       	ldi	r25, 0x00	; 0
+     f7c:	69 81       	ldd	r22, Y+1	; 0x01
+     f7e:	0e 94 b4 04 	call	0x968	; 0x968 <HSEVEN_SEGMENT_VidDisplayNumber>
+		HSEVEN_SEGMENT_VidDisplayNumber(&SEVEN_SEG2,SEG_1);
+     f82:	86 e6       	ldi	r24, 0x66	; 102
+     f84:	90 e0       	ldi	r25, 0x00	; 0
+     f86:	6a 81       	ldd	r22, Y+2	; 0x02
+     f88:	0e 94 b4 04 	call	0x968	; 0x968 <HSEVEN_SEGMENT_VidDisplayNumber>
 		APP_Delay_ms(1000);
-     f72:	88 ee       	ldi	r24, 0xE8	; 232
-     f74:	93 e0       	ldi	r25, 0x03	; 3
-     f76:	0e 94 77 06 	call	0xcee	; 0xcee <APP_Delay_ms>
-		HSEVEN_SEGMENT_VidOff(&SEVEN_SEG1,OFF);
-     f7a:	84 e6       	ldi	r24, 0x64	; 100
-     f7c:	90 e0       	ldi	r25, 0x00	; 0
-     f7e:	60 e0       	ldi	r22, 0x00	; 0
-     f80:	0e 94 8b 04 	call	0x916	; 0x916 <HSEVEN_SEGMENT_VidOff>
-		j = 9;
-     f84:	89 e0       	ldi	r24, 0x09	; 9
-     f86:	89 83       	std	Y+1, r24	; 0x01
-     f88:	0f c0       	rjmp	.+30     	; 0xfa8 <APP_CountDown+0x5e>
+     f8c:	88 ee       	ldi	r24, 0xE8	; 232
+     f8e:	93 e0       	ldi	r25, 0x03	; 3
+     f90:	0e 94 77 06 	call	0xcee	; 0xcee <APP_Delay_ms>
 	}
-	else
-	{
-		j = Copy_u8Number;
-     f8a:	8a 81       	ldd	r24, Y+2	; 0x02
-     f8c:	89 83       	std	Y+1, r24	; 0x01
-     f8e:	0c c0       	rjmp	.+24     	; 0xfa8 <APP_CountDown+0x5e>
-	}
-	for(;j>0;j--)
-	{
-		HSEVEN_SEGMENT_VidDisplayNumber(&SEVEN_SEG2,j);
-     f90:	86 e6       	ldi	r24, 0x66	; 102
-     f92:	90 e0       	ldi	r25, 0x00	; 0
-     f94:	69 81       	ldd	r22, Y+1	; 0x01
-     f96:	0e 94 b4 04 	call	0x968	; 0x968 <HSEVEN_SEGMENT_VidDisplayNumber>
-		APP_Delay_ms(1000);
-     f9a:	88 ee       	ldi	r24, 0xE8	; 232
-     f9c:	93 e0       	ldi	r25, 0x03	; 3
-     f9e:	0e 94 77 06 	call	0xcee	; 0xcee <APP_Delay_ms>
-	}
-	else
-	{
-		j = Copy_u8Number;
-	}
-	for(;j>0;j--)
-     fa2:	89 81       	ldd	r24, Y+1	; 0x01
-     fa4:	81 50       	subi	r24, 0x01	; 1
-     fa6:	89 83       	std	Y+1, r24	; 0x01
-     fa8:	89 81       	ldd	r24, Y+1	; 0x01
-     faa:	88 23       	and	r24, r24
-     fac:	89 f7       	brne	.-30     	; 0xf90 <APP_CountDown+0x46>
-	{
-		HSEVEN_SEGMENT_VidDisplayNumber(&SEVEN_SEG2,j);
+}
+void APP_CountDown(u8 Copy_u8Number)
+{
+	u8 i= Copy_u8Number;
+	for(;i>0;i--)
+     f94:	8b 81       	ldd	r24, Y+3	; 0x03
+     f96:	81 50       	subi	r24, 0x01	; 1
+     f98:	8b 83       	std	Y+3, r24	; 0x03
+     f9a:	8b 81       	ldd	r24, Y+3	; 0x03
+     f9c:	88 23       	and	r24, r24
+     f9e:	f9 f6       	brne	.-66     	; 0xf5e <APP_CountDown+0x14>
+		HSEVEN_SEGMENT_VidDisplayNumber(&SEVEN_SEG2,SEG_1);
 		APP_Delay_ms(1000);
 	}
+
 
 }
-     fae:	0f 90       	pop	r0
-     fb0:	0f 90       	pop	r0
-     fb2:	cf 91       	pop	r28
-     fb4:	df 91       	pop	r29
-     fb6:	08 95       	ret
+     fa0:	0f 90       	pop	r0
+     fa2:	0f 90       	pop	r0
+     fa4:	0f 90       	pop	r0
+     fa6:	0f 90       	pop	r0
+     fa8:	cf 91       	pop	r28
+     faa:	df 91       	pop	r29
+     fac:	08 95       	ret
 
-00000fb8 <main>:
+00000fae <main>:
 int main(void)
 {
-     fb8:	df 93       	push	r29
-     fba:	cf 93       	push	r28
-     fbc:	cd b7       	in	r28, 0x3d	; 61
-     fbe:	de b7       	in	r29, 0x3e	; 62
+     fae:	df 93       	push	r29
+     fb0:	cf 93       	push	r28
+     fb2:	cd b7       	in	r28, 0x3d	; 61
+     fb4:	de b7       	in	r29, 0x3e	; 62
 
 	HLED_VidInit(&R_LED1);
-     fc0:	89 e6       	ldi	r24, 0x69	; 105
-     fc2:	90 e0       	ldi	r25, 0x00	; 0
-     fc4:	0e 94 0b 06 	call	0xc16	; 0xc16 <HLED_VidInit>
+     fb6:	89 e6       	ldi	r24, 0x69	; 105
+     fb8:	90 e0       	ldi	r25, 0x00	; 0
+     fba:	0e 94 0b 06 	call	0xc16	; 0xc16 <HLED_VidInit>
 	HLED_VidInit(&Y_LED2);
-     fc8:	80 e6       	ldi	r24, 0x60	; 96
-     fca:	90 e0       	ldi	r25, 0x00	; 0
-     fcc:	0e 94 0b 06 	call	0xc16	; 0xc16 <HLED_VidInit>
+     fbe:	80 e6       	ldi	r24, 0x60	; 96
+     fc0:	90 e0       	ldi	r25, 0x00	; 0
+     fc2:	0e 94 0b 06 	call	0xc16	; 0xc16 <HLED_VidInit>
 	HLED_VidInit(&G_LED3);
-     fd0:	82 e6       	ldi	r24, 0x62	; 98
-     fd2:	90 e0       	ldi	r25, 0x00	; 0
-     fd4:	0e 94 0b 06 	call	0xc16	; 0xc16 <HLED_VidInit>
+     fc6:	82 e6       	ldi	r24, 0x62	; 98
+     fc8:	90 e0       	ldi	r25, 0x00	; 0
+     fca:	0e 94 0b 06 	call	0xc16	; 0xc16 <HLED_VidInit>
 	HSEVEN_SEGMENT_VidInit(&SEVEN_SEG1);
-     fd8:	84 e6       	ldi	r24, 0x64	; 100
-     fda:	90 e0       	ldi	r25, 0x00	; 0
-     fdc:	0e 94 79 04 	call	0x8f2	; 0x8f2 <HSEVEN_SEGMENT_VidInit>
+     fce:	84 e6       	ldi	r24, 0x64	; 100
+     fd0:	90 e0       	ldi	r25, 0x00	; 0
+     fd2:	0e 94 79 04 	call	0x8f2	; 0x8f2 <HSEVEN_SEGMENT_VidInit>
 	HSEVEN_SEGMENT_VidInit(&SEVEN_SEG2);
-     fe0:	86 e6       	ldi	r24, 0x66	; 102
-     fe2:	90 e0       	ldi	r25, 0x00	; 0
-     fe4:	0e 94 79 04 	call	0x8f2	; 0x8f2 <HSEVEN_SEGMENT_VidInit>
+     fd6:	86 e6       	ldi	r24, 0x66	; 102
+     fd8:	90 e0       	ldi	r25, 0x00	; 0
+     fda:	0e 94 79 04 	call	0x8f2	; 0x8f2 <HSEVEN_SEGMENT_VidInit>
 
 	while(1)
 	{
 		/*1- Turn On Green LED for 10 seconds*/
 		HLED_VidLed_Off(&G_LED3);
-     fe8:	82 e6       	ldi	r24, 0x62	; 98
-     fea:	90 e0       	ldi	r25, 0x00	; 0
-     fec:	0e 94 37 06 	call	0xc6e	; 0xc6e <HLED_VidLed_Off>
+     fde:	82 e6       	ldi	r24, 0x62	; 98
+     fe0:	90 e0       	ldi	r25, 0x00	; 0
+     fe2:	0e 94 37 06 	call	0xc6e	; 0xc6e <HLED_VidLed_Off>
 		HLED_VidLed_On(&R_LED1);
-     ff0:	89 e6       	ldi	r24, 0x69	; 105
-     ff2:	90 e0       	ldi	r25, 0x00	; 0
-     ff4:	0e 94 21 06 	call	0xc42	; 0xc42 <HLED_VidLed_On>
+     fe6:	89 e6       	ldi	r24, 0x69	; 105
+     fe8:	90 e0       	ldi	r25, 0x00	; 0
+     fea:	0e 94 21 06 	call	0xc42	; 0xc42 <HLED_VidLed_On>
 		APP_CountDown(10);
-     ff8:	8a e0       	ldi	r24, 0x0A	; 10
-     ffa:	0e 94 a5 07 	call	0xf4a	; 0xf4a <APP_CountDown>
+     fee:	8a e0       	ldi	r24, 0x0A	; 10
+     ff0:	0e 94 a5 07 	call	0xf4a	; 0xf4a <APP_CountDown>
 		/*2- Turn On Yellow LED for 3 seconds*/
 		HLED_VidLed_Off(&R_LED1);
-     ffe:	89 e6       	ldi	r24, 0x69	; 105
-    1000:	90 e0       	ldi	r25, 0x00	; 0
-    1002:	0e 94 37 06 	call	0xc6e	; 0xc6e <HLED_VidLed_Off>
+     ff4:	89 e6       	ldi	r24, 0x69	; 105
+     ff6:	90 e0       	ldi	r25, 0x00	; 0
+     ff8:	0e 94 37 06 	call	0xc6e	; 0xc6e <HLED_VidLed_Off>
 		HLED_VidLed_On(&Y_LED2);
-    1006:	80 e6       	ldi	r24, 0x60	; 96
-    1008:	90 e0       	ldi	r25, 0x00	; 0
-    100a:	0e 94 21 06 	call	0xc42	; 0xc42 <HLED_VidLed_On>
+     ffc:	80 e6       	ldi	r24, 0x60	; 96
+     ffe:	90 e0       	ldi	r25, 0x00	; 0
+    1000:	0e 94 21 06 	call	0xc42	; 0xc42 <HLED_VidLed_On>
 		APP_CountDown(3);
-    100e:	83 e0       	ldi	r24, 0x03	; 3
-    1010:	0e 94 a5 07 	call	0xf4a	; 0xf4a <APP_CountDown>
+    1004:	83 e0       	ldi	r24, 0x03	; 3
+    1006:	0e 94 a5 07 	call	0xf4a	; 0xf4a <APP_CountDown>
 		/*3- Turn On Red LED for 10 seconds*/
 		HLED_VidLed_Off(&R_LED1);
-    1014:	89 e6       	ldi	r24, 0x69	; 105
-    1016:	90 e0       	ldi	r25, 0x00	; 0
-    1018:	0e 94 37 06 	call	0xc6e	; 0xc6e <HLED_VidLed_Off>
+    100a:	89 e6       	ldi	r24, 0x69	; 105
+    100c:	90 e0       	ldi	r25, 0x00	; 0
+    100e:	0e 94 37 06 	call	0xc6e	; 0xc6e <HLED_VidLed_Off>
 		HLED_VidLed_Off(&Y_LED2);
-    101c:	80 e6       	ldi	r24, 0x60	; 96
-    101e:	90 e0       	ldi	r25, 0x00	; 0
-    1020:	0e 94 37 06 	call	0xc6e	; 0xc6e <HLED_VidLed_Off>
+    1012:	80 e6       	ldi	r24, 0x60	; 96
+    1014:	90 e0       	ldi	r25, 0x00	; 0
+    1016:	0e 94 37 06 	call	0xc6e	; 0xc6e <HLED_VidLed_Off>
 		HLED_VidLed_On(&G_LED3);
-    1024:	82 e6       	ldi	r24, 0x62	; 98
-    1026:	90 e0       	ldi	r25, 0x00	; 0
-    1028:	0e 94 21 06 	call	0xc42	; 0xc42 <HLED_VidLed_On>
+    101a:	82 e6       	ldi	r24, 0x62	; 98
+    101c:	90 e0       	ldi	r25, 0x00	; 0
+    101e:	0e 94 21 06 	call	0xc42	; 0xc42 <HLED_VidLed_On>
 		APP_CountDown(10);
-    102c:	8a e0       	ldi	r24, 0x0A	; 10
-    102e:	0e 94 a5 07 	call	0xf4a	; 0xf4a <APP_CountDown>
-    1032:	da cf       	rjmp	.-76     	; 0xfe8 <main+0x30>
+    1022:	8a e0       	ldi	r24, 0x0A	; 10
+    1024:	0e 94 a5 07 	call	0xf4a	; 0xf4a <APP_CountDown>
+    1028:	da cf       	rjmp	.-76     	; 0xfde <main+0x30>
 
-00001034 <_exit>:
-    1034:	f8 94       	cli
+0000102a <__udivmodqi4>:
+    102a:	99 1b       	sub	r25, r25
+    102c:	79 e0       	ldi	r23, 0x09	; 9
+    102e:	04 c0       	rjmp	.+8      	; 0x1038 <__udivmodqi4_ep>
 
-00001036 <__stop_program>:
-    1036:	ff cf       	rjmp	.-2      	; 0x1036 <__stop_program>
+00001030 <__udivmodqi4_loop>:
+    1030:	99 1f       	adc	r25, r25
+    1032:	96 17       	cp	r25, r22
+    1034:	08 f0       	brcs	.+2      	; 0x1038 <__udivmodqi4_ep>
+    1036:	96 1b       	sub	r25, r22
+
+00001038 <__udivmodqi4_ep>:
+    1038:	88 1f       	adc	r24, r24
+    103a:	7a 95       	dec	r23
+    103c:	c9 f7       	brne	.-14     	; 0x1030 <__udivmodqi4_loop>
+    103e:	80 95       	com	r24
+    1040:	08 95       	ret
+
+00001042 <_exit>:
+    1042:	f8 94       	cli
+
+00001044 <__stop_program>:
+    1044:	ff cf       	rjmp	.-2      	; 0x1044 <__stop_program>

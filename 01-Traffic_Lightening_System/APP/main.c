@@ -43,23 +43,17 @@ void APP_Delay_ms(u16 Copy_u16Delay_ms)
 }
 void APP_CountDown(u8 Copy_u8Number)
 {
-	u8 j=0;
-	if(Copy_u8Number==10){
-		HSEVEN_SEGMENT_VidDisplayNumber(&SEVEN_SEG1,1);
-		HSEVEN_SEGMENT_VidDisplayNumber(&SEVEN_SEG2,0);
-		APP_Delay_ms(1000);
-		HSEVEN_SEGMENT_VidOff(&SEVEN_SEG1,OFF);
-		j = 9;
-	}
-	else
+	u8 i= Copy_u8Number;
+	for(;i>0;i--)
 	{
-		j = Copy_u8Number;
-	}
-	for(;j>0;j--)
-	{
-		HSEVEN_SEGMENT_VidDisplayNumber(&SEVEN_SEG2,j);
+		u8 SEG_1 = i%10;
+		u8 SEG_2 = i/10;
+
+		HSEVEN_SEGMENT_VidDisplayNumber(&SEVEN_SEG1,SEG_2);
+		HSEVEN_SEGMENT_VidDisplayNumber(&SEVEN_SEG2,SEG_1);
 		APP_Delay_ms(1000);
 	}
+
 
 }
 int main(void)
