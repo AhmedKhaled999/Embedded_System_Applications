@@ -1,0 +1,13 @@
+HAL/HEEPROM/HEEPROM_Program.o HAL/HEEPROM/HEEPROM_Program.o:  \
+ ../HAL/HEEPROM/HEEPROM_Program.c ../HAL/HEEPROM/..\..\LIB\LSTD_TYPES.h \
+  ../HAL/HEEPROM/..\..\MCAL\MTWI\MTWI_Interface.h \
+  ../HAL/HEEPROM/..\..\MCAL\MTWI\MTWI_Private.h \
+  ../HAL/HEEPROM/HEEPROM_Private.h
+
+../HAL/HEEPROM/..\..\LIB\LSTD_TYPES.h:
+
+../HAL/HEEPROM/..\..\MCAL\MTWI\MTWI_Interface.h:
+
+../HAL/HEEPROM/..\..\MCAL\MTWI\MTWI_Private.h:
+
+../HAL/HEEPROM/HEEPROM_Private.h:
